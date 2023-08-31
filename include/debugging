@@ -1,0 +1,23 @@
+//https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2022/p2514r0.html
+
+#ifndef SBS_DEBUGGING
+#define SBS_DEBUGGING
+
+#include "internal/sbs_macros.h"
+
+_BEGIN_SBS
+inline void breakpoint() noexcept
+{
+#ifdef _MSC_VER
+    __debugbreak();
+#elif __GNUC__
+    __builtin_trap();
+#elif __clang__
+    __builtin_debugtrap();
+#elif __ARMCC_VERSION
+    __breakpoint();
+#endif
+}
+_END_SBS
+
+#endif
